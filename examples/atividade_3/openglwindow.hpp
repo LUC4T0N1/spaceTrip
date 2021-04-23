@@ -3,14 +3,7 @@
 
 #include "abcg.hpp"
 #include "camera.hpp"
-
-struct Vertex {
-  glm::vec3 position;
-
-  bool operator==(const Vertex& other) const {
-    return position == other.position;
-  }
-};
+#include "model.hpp"
 
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
@@ -22,10 +15,9 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   void terminateGL() override;
 
  private:
-  GLuint m_VAO{};
-  GLuint m_VBO{};
-  GLuint m_EBO{};
   GLuint m_program{};
+
+  Model m_model;
 
   int m_viewportWidth{};
   int m_viewportHeight{};
@@ -42,7 +34,6 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;
 
-  void loadModelFromFile(std::string_view path);
   void update();
   void changeSpeed(bool easy);
 };

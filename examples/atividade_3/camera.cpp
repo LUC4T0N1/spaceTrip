@@ -26,13 +26,13 @@ void Camera::dolly(float speed) {
 
 void Camera::verifyCollisions() {
   //verify obstacle 1
-  if(((m_eye.z <= -5.0f) && (m_eye.z >= -5.1f)) && (m_eye.y >= -0.5f)) {
+  if(((m_eye.z <= -5.0f) && (m_eye.z >= -5.2f)) && (m_eye.y >= -0.5f)) {
     restart();
-  }else if(((m_eye.z <= -2.0f) && (m_eye.z >= -2.1f)) && (m_eye.y <= 0.5f)) {
+  }else if(((m_eye.z <= -2.0f) && (m_eye.z >= -2.2f)) && (m_eye.y <= 0.5f)) {
     restart();
-  }else if(((m_eye.z <= 1.0f) && (m_eye.z >= 0.9f)) && (m_eye.x >= -0.5f)) {
+  }else if(((m_eye.z <= 1.0f) && (m_eye.z >= 0.8f)) && (m_eye.x >= -0.5f)) {
     restart();
-  }else if(((m_eye.z <= 4.0f) && (m_eye.z >= 3.9f)) && (m_eye.x <= 0.5f)) {
+  }else if(((m_eye.z <= 4.0f) && (m_eye.z >= 3.8f)) && (m_eye.x <= 0.5f)) {
     restart();
   }
 }

@@ -154,7 +154,7 @@ void OpenGLWindow::paintUI() {
       }
       ImGui::PopItemWidth();
 
-      if (currentIndex == 0) {
+      if (currentIndex ==  0) {
         auto aspect{static_cast<float>(m_viewportWidth) /
                     static_cast<float>(m_viewportHeight)};
         m_projMatrix =

@@ -5,9 +5,12 @@
 
 struct Vertex {
   glm::vec3 position{};
+  glm::vec3 normal{};
 
   bool operator==(const Vertex& other) const noexcept {
-    return position == other.position;
+    static const auto epsilon{std::numeric_limits<float>::epsilon()};
+    return glm::all(glm::epsilonEqual(position, other.position, epsilon)) &&
+           glm::all(glm::epsilonEqual(normal, other.normal, epsilon));
   }
 };
 
@@ -25,7 +28,6 @@ class Model {
   void render() const;
   void setupVAO(GLuint program);
 
-
  private:
   GLuint m_VAO{};
   GLuint m_VBO{};
@@ -34,6 +36,9 @@ class Model {
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;
 
+  bool m_hasNormals{false};
+
+  void computeNormals();
   void createBuffers();
   void standardize();
 };

@@ -1,6 +1,8 @@
 #ifndef MODEL_HPP_
 #define MODEL_HPP_
 
+#include <string_view>
+
 #include "abcg.hpp"
 
 struct Vertex {
@@ -28,8 +30,12 @@ class Model {
 
   void loadDiffuseTexture(std::string_view path);
   void loadFromFile(std::string_view path, bool standardize = true);
-  void render() const;
+  void render(int numTriangles = -1) const;
   void setupVAO(GLuint program);
+
+  [[nodiscard]] int getNumTriangles() const {
+    return static_cast<int>(m_indices.size()) / 3;
+  }
 
   [[nodiscard]] glm::vec4 getKa() const { return m_Ka; }
   [[nodiscard]] glm::vec4 getKd() const { return m_Kd; }

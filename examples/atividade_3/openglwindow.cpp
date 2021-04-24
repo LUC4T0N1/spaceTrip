@@ -48,15 +48,26 @@ void OpenGLWindow::initializeGL() {
   glEnable(GL_DEPTH_TEST);
 
   // Create program
-  m_program = createProgramFromFile(getAssetsPath() + "phong.vert",
-                                    getAssetsPath() + "phong.frag");
+  m_program = createProgramFromFile(getAssetsPath() + "texture.vert",
+                                    getAssetsPath() + "texture.frag");
 
-  // Load model
-  m_model.loadFromFile(getAssetsPath() + "box.obj", false);
-
-  m_model.setupVAO(m_program);
+  // Load default model
+  loadModel(getAssetsPath() + "box.obj");
+  m_mappingMode = 2;  // "From mesh" option
 
   resizeGL(getWindowSettings().width, getWindowSettings().height);
+}
+
+void OpenGLWindow::loadModel(std::string_view path) {
+  m_model.loadDiffuseTexture(getAssetsPath() + "maps/space2.jpg");
+  m_model.loadFromFile(path);
+  m_model.setupVAO(m_program);
+
+  // Use material properties from the loaded model
+  m_Ka = glm::vec4 {1.0f};
+  m_Kd = glm::vec4 {1.0f};
+  m_Ks = glm::vec4 {1.0f};
+  m_shininess = m_model.getShininess();
 }
 
 
@@ -81,12 +92,20 @@ void OpenGLWindow::paintGL() {
   GLint KaLoc{glGetUniformLocation(m_program, "Ka")};
   GLint KdLoc{glGetUniformLocation(m_program, "Kd")};
   GLint KsLoc{glGetUniformLocation(m_program, "Ks")};
+  GLint diffuseTexLoc{glGetUniformLocation(m_program, "diffuseTex")};
+  GLint mappingModeLoc{glGetUniformLocation(m_program, "mappingMode")};
 
 
   // Set uniform variables used by every scene object
   glUniformMatrix4fv(viewMatrixLoc, 1,  GL_FALSE, &m_camera.m_viewMatrix[0][0]);
   glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);
+  glUniform1i(diffuseTexLoc, 0);
+  glUniform1i(mappingModeLoc, m_mappingMode);
 
+  glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
+  glUniform4fv(IaLoc, 1, &m_Ia.x);
+  glUniform4fv(IdLoc, 1, &m_Id.x);
+  glUniform4fv(IsLoc, 1, &m_Is.x);
 
   // Draw white box
   glm::mat4 model{1.0f};
@@ -96,18 +115,18 @@ void OpenGLWindow::paintGL() {
 
   glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
 
-  glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
-  glUniform1f(shininessLoc, m_shininess);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
-  glUniform4fv(IsLoc, 1, &m_Is.x);
-  glUniform4fv(KaLoc, 1, &m_Ka.x);
-  glUniform4fv(KdLoc, 1, &m_Kd.x);
-  glUniform4fv(KsLoc, 1, &m_Ks.x);
-
   auto modelViewMatrix{glm::mat3(m_viewMatrix * model)};
   glm::mat3 normalMatrix{glm::inverseTranspose(modelViewMatrix)};
   glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix[0][0]);
+
+  //glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
+  glUniform1f(shininessLoc, m_shininess);
+  // glUniform4fv(IaLoc, 1, &m_Ia.x);
+  // glUniform4fv(IdLoc, 1, &m_Id.x);
+  // glUniform4fv(IsLoc, 1, &m_Is.x);
+  glUniform4fv(KaLoc, 1, &m_Ka.x);
+  glUniform4fv(KdLoc, 1, &m_Kd.x);
+  glUniform4fv(KsLoc, 1, &m_Ks.x);
 
   m_model.render();
 
@@ -120,9 +139,9 @@ void OpenGLWindow::paintGL() {
 
   glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
   glUniform1f(shininessLoc, m_shininess);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
-  glUniform4fv(IsLoc, 1, &m_Is.x);
+  // glUniform4fv(IaLoc, 1, &m_Ia.x);
+  // glUniform4fv(IdLoc, 1, &m_Id.x);
+  // glUniform4fv(IsLoc, 1, &m_Is.x);
   glUniform4fv(KaLoc, 1, &m_Ka.x);
   glUniform4fv(KdLoc, 1, &m_Kd.x);
   glUniform4fv(KsLoc, 1, &m_Ks.x);
@@ -143,9 +162,9 @@ void OpenGLWindow::paintGL() {
 
   glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
   glUniform1f(shininessLoc, m_shininess);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
-  glUniform4fv(IsLoc, 1, &m_Is.x);
+  // glUniform4fv(IaLoc, 1, &m_Ia.x);
+  // glUniform4fv(IdLoc, 1, &m_Id.x);
+  // glUniform4fv(IsLoc, 1, &m_Is.x);
   glUniform4fv(KaLoc, 1, &m_Ka.x);
   glUniform4fv(KdLoc, 1, &m_Kd.x);
   glUniform4fv(KsLoc, 1, &m_Ks.x);
@@ -165,9 +184,9 @@ void OpenGLWindow::paintGL() {
 
   glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
   glUniform1f(shininessLoc, m_shininess);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
-  glUniform4fv(IsLoc, 1, &m_Is.x);
+  // glUniform4fv(IaLoc, 1, &m_Ia.x);
+  // glUniform4fv(IdLoc, 1, &m_Id.x);
+  // glUniform4fv(IsLoc, 1, &m_Is.x);
   glUniform4fv(KaLoc, 1, &m_Ka.x);
   glUniform4fv(KdLoc, 1, &m_Kd.x);
   glUniform4fv(KsLoc, 1, &m_Ks.x);
@@ -188,9 +207,9 @@ void OpenGLWindow::paintGL() {
 
   glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
   glUniform1f(shininessLoc, m_shininess);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
-  glUniform4fv(IsLoc, 1, &m_Is.x);
+  // glUniform4fv(IaLoc, 1, &m_Ia.x);
+  // glUniform4fv(IdLoc, 1, &m_Id.x);
+  // glUniform4fv(IsLoc, 1, &m_Is.x);
   glUniform4fv(KaLoc, 1, &m_Ka.x);
   glUniform4fv(KdLoc, 1, &m_Kd.x);
   glUniform4fv(KsLoc, 1, &m_Ks.x);
@@ -254,12 +273,12 @@ void OpenGLWindow::paintGL() {
 
   glUniform4fv(lightDirLoc, 1, &m_lightDir.x);
   glUniform1f(shininessLoc, m_shininess);
-  glUniform4fv(IaLoc, 1, &m_Ia.x);
-  glUniform4fv(IdLoc, 1, &m_Id.x);
-  glUniform4fv(IsLoc, 1, &m_Is.x);
-  glUniform4fv(KaLoc, 1, &m_Ka.x);
-  glUniform4fv(KdLoc, 1, &m_Kd.x);
-  glUniform4fv(KsLoc, 1, &m_Ks.x);
+  glUniform4fv(IaLoc, 1, &m_obs.x);
+  glUniform4fv(IdLoc, 1, &m_obs.x);
+  glUniform4fv(IsLoc, 1, &m_obs.x);
+  glUniform4fv(KaLoc, 1, &m_obs.x);
+  glUniform4fv(KdLoc, 1, &m_obs.x);
+  glUniform4fv(KsLoc, 1, &m_obs.x);
 
   modelViewMatrix = {(m_viewMatrix * model)};
   normalMatrix = {glm::inverseTranspose(modelViewMatrix)};

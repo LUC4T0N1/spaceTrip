@@ -1,3 +1,6 @@
+O código do projeto foi desenvolvido a partir da ABCg, portanto a base da estrutura foi obtida a partir de https://github.com/hbatagelo/abcg.git
+O código referente apenas ao desenvolvimento do projeto pode ser encontrado na pasta examples. Todo o código desenvolvido está na pasta atividade_3.
+
 O projeto representa um jogo 3D desenvolvido com ABCg, cujos gráficos são renderizados com o pipeline do OpenGL usando shaders.
 O jogo é em primeiro pessoa, e simboliza uma nave que está passando por túneis com diversos obstáculos, cujo piloto deve desviar para avançar pelos túneis.
 O jogo possui um total de 4 fases, sendo que cada fase é representada por um túnel. Quando chegar ao final de uma fase, o jogador é automaticamente levado para a próxima fase.

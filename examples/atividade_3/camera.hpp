@@ -13,12 +13,12 @@ class Camera {
 
   void dolly(float speed);
   void truck(float speed);
-  //void crouch();
-  //void getUp();
   void up(float speed);
   void down(float speed);
   void restart();
   void verifyCollisions();
+  void verifyFinish();
+  void changeLevel(int level);
 
 
  private:
@@ -27,6 +27,7 @@ class Camera {
   glm::vec3 m_eye{glm::vec3(0.0f, 0.0f, 16.0f)};  // Camera position
   glm::vec3 m_at{glm::vec3(0.0f, 0.0f, 0.0f)};   // Look-at point
   glm::vec3 m_up{glm::vec3(0.0f, 1.0f, 0.0f)};   // "up" direction
+  int m_actualLevel = 1;
 
   // Matrix to change from world space to camera soace
   glm::mat4 m_viewMatrix;

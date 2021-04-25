@@ -1,13 +1,21 @@
-# ABCg
+O projeto representa um jogo 3D desenvolvido com ABCg, cujos gráficos são renderizados com o pipeline do OpenGL usando shaders.
+O jogo é em primeiro pessoa, e simboliza uma nave que está passando por túneis com diversos obstáculos, cujo piloto deve desviar para avançar pelos túneis.
+O jogo possui um total de 4 fases, sendo que cada fase é representada por um túnel. Quando chegar ao final de uma fase, o jogador é automaticamente levado para a próxima fase.
+Cada túnel possui uma coloração, e conforme o jogo vai progredindo,  os túneis ficam maiores e com mais obstáculos, além da velocidade da nave aumentar consideravelmente.
+Caso o jogador colida com algum obstáculo, o jogo reinicia.
+Caso o jogador finalize as 4 fases o jogo reinicia.
+O jogo é inteiramente controlado pelo teclado.
 
-Development framework accompanying the course [MCTA008-17 Computer Graphics](http://professor.ufabc.edu.br/~harlen.batagelo/cg/) at [UFABC](https://www.ufabc.edu.br/).
+Comandos:
+  - P : a tecla P pausa o jogo. Caso ele esteja pausado, a tecla P irá retomar o jogo de onde ele parou.
+  - R : a tecla R reinicia o jogo, voltando a nae para o estado inicial.
+  - W ou Seta Para Cima:  a tecla W ou a seta para cima movem a nave para cima.
+  - S ou Seta Para Baixo:  a tecla S ou a seta para baixo movem a nave para baixo.
+  - A ou Seta Para Esquerda:  a tecla a ou a seta para esquerda movem a nave para a esquerda.
+  - D ou Seta Para Direita:  a tecla D ou a seta para direita movem a nave para a direita.
 
-## Author
 
-Harlen Batagelo
 
-## License
 
-MIT
-# at3
-# at3
+
+OBS: Caso o computador do jogador não consiga rodar o jogo com boa performance, o jogo pode apresentar alguns bugs de colisão com as paredes dos túneis.

@@ -22,3 +22,4 @@ Comandos:
 
 
 OBS: Caso o computador do jogador não consiga rodar o jogo com boa performance, o jogo pode apresentar alguns bugs de colisão com as paredes dos túneis.
+     A textura utilizada nas paredes encontra-se em: https://i.pinimg.com/originals/cf/8e/f0/cf8ef0e8ea9e40cc32fbfc3c83b8e4c1.jpg

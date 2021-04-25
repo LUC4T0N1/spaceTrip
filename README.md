@@ -8,6 +8,7 @@ Cada túnel possui uma coloração, e conforme o jogo vai progredindo,  os túne
 Caso o jogador colida com algum obstáculo, o jogo reinicia.
 Caso o jogador finalize as 4 fases o jogo reinicia.
 O jogo é inteiramente controlado pelo teclado.
+A nave está constantemente se movendo para frente.
 
 Comandos:
   - P : a tecla P pausa o jogo. Caso ele esteja pausado, a tecla P irá retomar o jogo de onde ele parou.
